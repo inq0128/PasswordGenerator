@@ -14,14 +14,12 @@ import (
 	tu "github.com/mymmrac/telego/telegoutil"
 )
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#;%:?*()@$%^&*-_=+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#;%:?*()@$%^&*-_=+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#;%:?*()@$%^&*-_=+"
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#;%:?*()@$%^&*-_=+"
 
 func randSymbol(n int) string {
-	reader := rand.Reader
-
 	b := make([]byte, n)
 	for i := range b {
-		randRune, _ := rand.Int(reader, big.NewInt(81))
+		randRune, _ := rand.Int(rand.Reader, big.NewInt(81))
 		b[i] = letterBytes[randRune.Int64()]
 	}
 	return string(b)
@@ -48,7 +46,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	bot, err := telego.NewBot(os.Getenv("TOKEN"), telego.WithDefaultDebugLogger())
+	bot, err := telego.NewBot(os.Getenv("TOKEN"), telego.WithDefaultLogger(false, true))
 	if err != nil {
 		log.Fatalln(err)
 	}
